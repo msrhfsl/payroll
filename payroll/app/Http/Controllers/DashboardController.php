@@ -1,9 +1,11 @@
 <?php
 
 namespace App\Http\Controllers;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
-
+use App\Models\Attendance;
+use Carbon\Carbon;
 
 class DashboardController extends Controller
 {
@@ -13,13 +15,47 @@ class DashboardController extends Controller
         $category = Auth::user()->category;
 
         if ($category == 'Staff') {
-            //dd(Auth::user()->id);
-            return view('dashboard.staff');
+
+            // Retrieve all attendance records from the database
+        $attendances = Attendance::all();
+
+        // Sort the attendance records by date
+        $sortedAttendances = $attendances->sortBy(function ($attendance) {
+            return Carbon::parse($attendance->check_in)->format('Y-m');
+        });
+
+        // Count the number of attendances for each month
+        $attendanceByMonth = $sortedAttendances->groupBy(function ($attendance) {
+            return Carbon::parse($attendance->check_in)->format('Y-m');
+        })->map(function ($groupedAttendances) {
+            return $groupedAttendances->count();
+        });
+
+        // Prepare the data for the chart
+        $months = $attendanceByMonth->keys();
+        $attendancesCount = $attendanceByMonth->values();
+
+        // Pass the data to a view for display
+        return view('attendance.attendanceChart', compact('months', 'attendancesCount'));
+
+        
         }
         
         if ($category == 'Admin') {
-            //dd(Auth::user()->id);
-            return view('dashboard.admin');
+            $count = DB::table('staff')
+                ->count();
+
+            $countTechnician = DB::table('staff')
+                ->where('position', 'Technician' )
+                ->count();
+
+            $countSales = DB::table('staff')
+                ->where('position', 'Sales' )
+                ->count();
+            return view('dashboard.admin', compact('count','countTechnician','countSales'));
         }
     }
+    
+
+
 }

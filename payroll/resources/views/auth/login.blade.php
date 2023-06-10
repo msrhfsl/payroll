@@ -63,6 +63,14 @@
                                     </a>
                                 @endif
                             </div>
+                            <div class="row mb-0">
+                            <div class="col-md-8 offset-md-4">
+                                <label for="register">Have an account?</label>
+                                <a class="btn btn-link" href="{{ route('register') }}">
+                                    {{ __('register') }}
+                                </a>
+                            </div>
+                        </div>
                         </div>
                     </form>
                 </div>

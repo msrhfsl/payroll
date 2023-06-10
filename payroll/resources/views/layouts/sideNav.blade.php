@@ -19,18 +19,10 @@
                     </a>
                 </nav>
             </div>
-            <!-- <form action="#" class="main-sidebar__search w-100 border-right d-sm-flex d-md-none d-lg-none">
-                    <div class="input-group input-group-seamless ml-3">
-                        <div class="input-group-prepend">
-                            <div class="input-group-text">
-                                <i class="fas fa-search"></i>
-                            </div>
-                        </div>
-                        <input class="navbar-search form-control" type="text" placeholder="Search for something..." aria-label="Search">
-                    </div>
-                </form> -->
+            
             <div class="nav-wrapper">
                 <ul class="nav flex-column">
+                @if( auth()->user()->category== "Admin")
                     <li class="nav-item">
                         <a class="nav-link {{ request()->routeIs('dashboard*') ? 'active' : '' }}" href="{{ route('dashboard') }}">
                             <i class="material-icons">info</i>
@@ -38,18 +30,53 @@
                         </a>
                     </li>
 
+                @elseif( auth()->user()->category== "Staff")
+
+                    <li class="nav-item">
+                    <a class="nav-link {{ request()->routeIs('chartAttend*') ? 'active' : '' }}" href="{{ route('chartAttend') }}">
+                            <i class="material-icons">info</i>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+
+                    
+                    @endif
+
+
                     <!-- DASHBOARD START -->
                     @if( auth()->user()->category== "Staff")
                     <li class="nav-item">
-                        <a class="nav-link {{ request()->routeIs('dashboard*') ? 'active' : '' }}" href="{{ route('dashboard') }}">
+                        <a class="nav-link {{ request()->routeIs('payrollHistory*') ? 'active' : '' }}" href="{{ route('payrollHistory') }}">
                             <i class="material-icons">work</i>
                             <span>Payslip Record</span>
                         </a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link {{ request()->routeIs('dashboard*') ? 'active' : '' }}" href="{{ route('dashboard') }}">
+                    <li class="nav-item">   
+                        <a class="nav-link {{ request()->routeIs('createAttend*') ? 'active' : '' }}" href="{{ route('createAttend') }}">
                             <i class="material-icons">work</i>
                             <span>Attendance</span>
+                        </a>
+                    </li>
+                    
+                    @endif
+
+                    @if( auth()->user()->category== "Admin")
+                    <li class="nav-item">
+                        <a class="nav-link {{ request()->routeIs('staffrecord*') ? 'active' : '' }}" href="{{ route('staffrecord') }}">
+                            <i class="material-icons">work</i>
+                            <span>Register Staff</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {{ request()->routeIs('payrollList*') ? 'active' : '' }}" href="{{ route('payrollList') }}">
+                            <i class="material-icons">work</i>
+                            <span>Create Payroll</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {{ request()->routeIs('cashFlow*') ? 'active' : '' }}" href="{{ route('cashFlow') }}">
+                            <i class="material-icons">work</i>
+                            <span>Payroll Record</span>
                         </a>
                     </li>
                     @endif
@@ -79,11 +106,13 @@
                     <ul class="navbar-nav border-left flex-row ml-auto ">
                         <li class="nav-item border-right dropdown">
                             <a class="nav-link dropdown-toggle text-nowrap px-3" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
-                                <img class="user-avatar rounded-circle mr-2" src="{{ asset('frontend') }}/images/avatar.jpg" alt="Avatar" width="30px" height="30px" style="vertical-align:baseline">
+                                <img class="user-avatar rounded-circle mr-2" src="/assets/{{Auth::user()->image}}" alt="Avatar" width="30px" height="30px" style="vertical-align:baseline">
                                 <span class="d-none d-md-inline-block"><strong>{{ Auth::user()->name }}</strong><br> {{Auth::user()->category}}</span>
                             </a>
                             <div class="dropdown-menu dropdown-menu-small">
                                 <div class="dropdown-divider"></div>
+                                <a class="dropdown-item text-success" href="{{ route('Profile', Auth::user()->id)}}">
+                                    <i class="material-icons text-success">manage_accounts</i> Profile </a>
                                 <a class="dropdown-item text-danger" href="{{ route('logout') }}" onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
                                     <i class="material-icons text-danger">&#xE879;</i> Logout </a>
