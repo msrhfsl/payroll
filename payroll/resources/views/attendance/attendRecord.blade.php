@@ -1,30 +1,154 @@
 @extends('layouts.sideNav')
+
 @section('content')
 
-<!-- Page Header -->
-<div class="page-header row no-gutters pb-4">
-    <div class="col-12 col-sm-4 text-center text-sm-left mb-0 d-flex">
-        <h1 class="page-title ml-3">RECORD ATTENDANCE</h1>
-    </div>
+<script src="{{ asset('frontend') }}/js/jquery.dataTables.js"></script>
+<script src="{{ asset('frontend') }}/js/dataTables.bootstrap4.js"></script>
+<script src="//code.jquery.com/jquery-1.12.3.js"></script>
+<script src="//cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.12/js/dataTables.bootstrap.min.js"></script>
+
+<script>
+    // to search the appointment 
+    $(document).ready(function() {
+        $('#dataTable').DataTable({
+            "order": [
+                [0, "asc"]
+            ],
+            "language": {
+                search: '<i class="fa fa-search" aria-hidden="true"></i>',
+                searchPlaceholder: 'Search appointment'
+            }
+        });
+
+        // filter appointment
+        $('.dataTables_filter input[type="search"]').css({
+            'width': '300px',
+            'display': 'inline-block',
+            'font-size': '15px',
+            'font-weight': '400'
+        });
+    });
+</script>
+
+<!-- to display the alert message if the record has been deleted -->
+@if(session()->has('message'))
+<div class="alert alert-success">
+    {{ session()->get('message') }}
 </div>
+@endif
+
 <div class="card">
     <div class="card-body">
-        <div class="row">
-            <form action="{{ route('attendRecord') }}" method="POST">
-                @csrf
-                <label for="reason">Reason:</label>
-                <input type="text" name="reason" id="reason" required>
+        <div class="overflow-auto" style="overflow:auto;">
+            <div class="table-responsive">
 
-                <label for="check_in">Check-in:</label>
-                <input type="datetime-local" name="check_in" id="check_in" required>
+            <div class="col-lg-2 col-md-2 col-sm-2" style="float: left;">
+                @if ($attendList->contains('date', now()->toDateString()))
+                    <button class="btn btn-primary" style="float: right; width:100%; background:#2952a3;" disabled>Check-in</button>
+                @else
+                    <form id="checkInForm" method="post" action="{{ route('checkIn') }}">
+                        @csrf
+                        <button type="submit" class="btn btn-primary" style="float: right; width:100%; background:#2952a3;" role="button">Check-in</button>
+                  
+                @endif
+            </div>
 
-                <label for="check_out">Check-out:</label>
-                <input type="datetime-local" name="check_out" id="check_out" required>
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Check-in</th>
+                            <th>Check-out</th>
+                        </tr>
+                    </thead>
 
-                <button type="submit" class="btn btn-primary" href="{{ route('attendRecord') }}" style="background-color: #145956; border-radius: 20px; border: none; width: 150px; color: white; font-size: 15px">Record Attendance</button>
-            </form>
-            
+                    @foreach($attendList as $index => $data)
+                    <tbody>
+                        <tr id="row{{$data->id}}">
+                            <td>{{ $data->date }}</td>
+                            <td>{{ $data->check_in }}</td>
+                            <td>
+                                @if ( $data->check_out == null )
+                                <center><a href="{{ route('checkOut', $data->id) }}" class="btn btn-primary" 
+                                style="width:40%; background:#2952a3;" role="button">Check-out</a></center>
+                                @else 
+                                {{ $data->check_out }}
+                                @endif
+                            </td>
+                        </tr>
+                        @endforeach
+                </tbody>
+                </table>
+
+                <!-- FOR Staff TO VIEW RECORD ATTENDANCE LIST END -->
+            </div>
         </div>
     </div>
 </div>
+
+<script src="{{ asset('frontend') }}/js/jquery.dataTables.js"></script>
+<script>
+function deleteItem(e) {
+    let id = e.getAttribute('data-id');
+    let name = e.getAttribute('data-name');
+
+    const swalWithBootstrapButtons = Swal.mixin({
+        customClass: {
+            confirmButton: 'btn btn-success ml-1',
+            cancelButton: 'btn btn-danger mr-1'
+        },
+        buttonsStyling: false
+    });
+
+    swalWithBootstrapButtons.fire({
+        title: 'Are you sure?',
+        html: "Name: " + name + "<br> You won't be able to revert this!",
+        text: "",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Yes, delete it!',
+        cancelButtonText: 'No, cancel!',
+        reverseButtons: true
+    }).then((result) => {
+        if (result.value) {
+            if (result.isConfirmed) {
+
+                $.ajax({
+                    type: 'DELETE',
+                    url: '{{url("/deleteFile")}}/' + id,
+                    data: {
+                        "_token": "{{ csrf_token() }}",
+                    },
+                    success: function(data) {
+                        if (data.success) {
+                            swalWithBootstrapButtons.fire(
+                                'Deleted!',
+                                'Document has been deleted.',
+                                "success"
+                            );
+
+                            $("#row" + id).remove(); // you can add name div to remove
+                        }
+
+
+                    }
+                });
+
+            }
+
+        } else if (
+            result.dismiss === Swal.DismissReason.cancel
+        ) {
+            // swalWithBootstrapButtons.fire(
+            //     'Cancelled',
+            //     'Your imaginary file is safe :)',
+            //     'error'
+            // );
+        }
+    });
+
+}
+</script>
+
 @endsection

@@ -39,6 +39,7 @@ Route::post('/insertDetailStaff/{id}', [App\Http\Controllers\regStaffController:
 Route::get('/viewStaff/{id}', [App\Http\Controllers\regStaffController::class, 'displayStaff'])->name('displayStaff');
 Route::post('updateStaff/{id}', [App\Http\Controllers\regStaffController::class, 'updateStaff'])->name('updateStaff');
 Route::delete('deleteStaff/{id}', [App\Http\Controllers\regStaffController::class, 'deleteStaff'])->name('deleteStaff');
+
 Route::get('/payrollList', [App\Http\Controllers\PayrollController::class, 'payrollList'])->name('payrollList');
 Route::get('/payrollGenerate', [App\Http\Controllers\PayrollController::class, 'payrollGenerate'])->name('payrollGenerate');
 Route::get('/payrollAllowance', [App\Http\Controllers\PayrollController::class, 'payrollAllowance'])->name('payrollAllowance');
@@ -46,10 +47,14 @@ Route::get('/payrollReview', [App\Http\Controllers\PayrollController::class, 'pa
 Route::get('/payrollHistory', [App\Http\Controllers\PayrollController::class, 'payrollHistory'])->name('payrollHistory');
 Route::get('/payslip', [App\Http\Controllers\PayrollController::class, 'payslip'])->name('payslip');
 Route::get('/cashFlow', [App\Http\Controllers\PayrollController::class, 'cashFlow'])->name('cashFlow');
-Route::post('/attendRecord', [App\Http\Controllers\AttendanceController::class, 'attendRecord'])->name('attendRecord');
+
+Route::post('/checkIn', [App\Http\Controllers\AttendanceController::class, 'checkIn'])->name('checkIn');
+Route::get('/checkOut/{id}', [App\Http\Controllers\AttendanceController::class, 'checkOut'])->name('checkOut');
 Route::get('/attendList', [App\Http\Controllers\AttendanceController::class, 'attendList'])->name('attendList');
 Route::get('/createAttend', [App\Http\Controllers\AttendanceController::class, 'createAttend'])->name('createAttend');
 Route::get('/chartAttend', [App\Http\Controllers\AttendanceController::class, 'chartAttend'])->name('chartAttend');
+
+
 Route::get('/ListOfStaff', [App\Http\Controllers\AccountController::class, 'listProfile'])->name('listOfStaff');
 Route::put('/UpdateProfile/{id}', [App\Http\Controllers\AccountController::class, 'updateProfile'])->name('updateProfile');
 Route::get('/Profile/{id}', [App\Http\Controllers\AccountController::class, 'Profile'])->name('Profile');
