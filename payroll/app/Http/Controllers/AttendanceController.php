@@ -101,6 +101,8 @@ class AttendanceController extends Controller
         return view('attendance.attendList', ['attendances' => $attendances]);
     }
 
+    
+
     public function createAttend()
     {
         $attendList = DB :: table('attendance')

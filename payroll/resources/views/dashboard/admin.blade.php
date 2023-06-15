@@ -1,6 +1,13 @@
 @extends('layouts.sideNav')
 @section('content')
 
+<script src="{{ asset('frontend') }}/js/jquery.dataTables.js"></script>
+<script src="{{ asset('frontend') }}/js/dataTables.bootstrap4.js"></script>
+<script src="//code.jquery.com/jquery-1.12.3.js"></script>
+<script src="//cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.12/js/dataTables.bootstrap.min.js"></script>
+
+
 <head>
     <style>
     .circle-tile {
@@ -225,6 +232,46 @@
         </div>
 
     </div>
+
+    <br>
+    <div class="row">
+        <div class="col">
+        <div class="card">
+            <div class="card-body">
+                <div class="overflow-auto" style="overflow:auto;">
+                    <div class="table-responsive">
+                        <div class="col-lg-12 col-md-12 col-sm-12" style="float: left;">
+                            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                <thead>
+                                    <tr>
+                                        <th>Staff Name</th>
+                                        <th>Date</th>
+                                        <th>Check-in</th>
+                                        <th>Check-out</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    @foreach($staffAttendance as $index => $data)
+                                    <tr id="row{{$data->id}}">
+                                        <td>{{ $data->name}}</td>
+                                        <td>{{ $data->date }}</td>
+                                        <td>{{ $data->check_in }}</td>
+                                        <td>{{ $data->check_out }}</td>
+                                    </tr>
+                                    @endforeach
+                                </tbody>
+
+                            </table>
+
+                            <!-- FOR Admin TO VIEW RECORD Staff ATTENDANCE LIST END -->
+                        </div>
+                    </div>  
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 </div>
 
 

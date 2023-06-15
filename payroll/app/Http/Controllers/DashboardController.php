@@ -42,6 +42,18 @@ class DashboardController extends Controller
         }
         
         if ($category == 'Admin') {
+
+            $staffAttendance = DB::table('users')
+            ->join('attendance', 'users.id', '=', 'attendance.userID')
+            ->select(
+            'users.id',
+            'users.name',
+            'attendance.date',
+            'attendance.check_in',
+            'attendance.check_out',
+            )
+            ->get();
+
             $count = DB::table('staff')
                 ->count();
 
@@ -52,9 +64,10 @@ class DashboardController extends Controller
             $countSales = DB::table('staff')
                 ->where('position', 'Sales' )
                 ->count();
-            return view('dashboard.admin', compact('count','countTechnician','countSales'));
+            return view('dashboard.admin', compact('count','countTechnician','countSales','staffAttendance'));
         }
     }
+    
     
 
 

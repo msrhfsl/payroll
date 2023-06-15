@@ -61,7 +61,7 @@ $(document).ready(function() {
                                     <td>{{$data->name}}</td>
                                     <td>{{$data->email}}</td>
                                     <td><a class="btn btn-primary" style="float: center; width:50%;" role="button"
-                            href="{{ route('payrollAllowance') }}">
+                            href="{{ route('payrollAllowance',$data->id) }}">
                             <i class="fas fa-plus"></i>&nbsp; Create Payroll</a></td>
                                     <td>Pending</td>
                             @endforeach

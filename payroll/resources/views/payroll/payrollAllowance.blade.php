@@ -32,6 +32,8 @@ $(document).ready(function() {
 });
 </script>
 
+
+
 <!-- to display the alert message if the record has been deleted -->
 @if(session()->has('message'))
 <div class="alert alert-success">
@@ -41,78 +43,91 @@ $(document).ready(function() {
 
 <div class="card">
     <div class="card-body">
-        <div class="overflow-auto" style="overflow:auto;">
-            <div class="table-responsive">
-                @if( auth()->user()->category== "Admin")
-                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                    <thead>
-                        <tr>
-                            <th colspan="4">P1 (Pay for Position)</th>
-                        </tr>
-                        <tr>
-                            <th colspan="2">Position</th>
-                            <th colspan="2">Basic Pay (RM)</th>
-                        </tr>
-                   </thead>
-                    <tbody>
-                            <td colspan="2">Technician</td>
-                            <td colspan="2">900</td>                        
-                    </tbody>
-                    <thead>
-                        <tr>
-                            <th colspan="2">P2 (Pay for Personal Competence)</th>
-                            <th colspan="2">P3 (Pay for Performance)</th>
-                        </tr>
-                   </thead>
-                    <tbody>
-                        <tr>
-                            <td colspan="2">Overtime (Hours)</td>
-                            <td colspan="2">Total ticket managed in a month</td>
-                        </tr>
-                        <tr>
-                            <td>36 Hours</td>
-                            <td>108.00</td>
-                            <td>20 Ticket</td>
-                            <td>20.00</td>
-                        </tr>
-                        <tr>
-                        <td colspan="2">Total Allowance (RM)</td>
-                        <td colspan="2"><input type="text" number="allowance" class="form-control" placeholder="100.00" style="width: 30%" required ></td>
-                        <br>
-                        </tr>
-                        <tr>
-                        <td colspan="4">
-                        <center><button type="button" class="btn btn-info" onclick="">Calculate Allowance</button></a></center>
-                        </td>
-                        </tr>
-                    </tbody>
+        <div class=" {{  auth()->user()->category== 'Admin' ? 'col-lg-12 col-md-12 col-sm-12' : (request()->routeIs('payrollAllowance') ? 'col-lg-12 col-md-12 col-sm-12' : 'col-lg-12 col-md-12 col-sm-12') }}">
+            <div class="overflow-auto" style="overflow:auto;">
+                <div class="table-responsive">
+                    @if( auth()->user()->category== "Admin")
+                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th colspan="4">P1 (Pay for Position)</th>
+                            </tr>
+                            <tr>
+                                <th>Name</th>
+                                <th colspan="2">Position</th>
+                                <th colspan="2">Basic Pay (RM)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                                <td>{{$staffInfo->name}}</td>
+                                <td colspan="2">{{$staffInfo->position}}</td>
+                                <td colspan="2">{{$staffInfo->basicPay}}</td>                        
+                        </tbody>
+                        
+                        <thead>
+                            <tr>
+                                <th colspan="2">P2 (Pay for Personal Competence)</th>
+                                <th colspan="2">P3 (Pay for Performance)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td colspan="2">Overtime (Hours)</td>
+                                <td colspan="2">Total ticket managed in a month</td>
+                            </tr>
+                            <tr>
+                                <td><input type="text" id="overtimeHours" class="form-control" placeholder="hours" style="width: 100%" required ></td>
+                                <td id="overtimeCalculation"></td>
+                                <td><input type="text" id="ticket" class="form-control" placeholder="ticket" style="width: 100%" required ></td>
+                                <td id="ticketCalculation"></td>
+                            </tr>
+                            <tr>
+                            <td colspan="2">Total Allowance (RM)</td>
+                            <td colspan="2" id="totalAllowance" colspan="2"></td>
 
-                    
-                </table>
-                @endif
-                <!-- FOR TECHNICIAN TO VIEW RECORD REPAIR FORM LIST END -->
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col">
-                <a class="btn btn-primary" style="float: left; width:50%;" role="button"
-                            href="{{ route('payrollGenerate') }}">Cancel</a>    
+                            <br>
+                            </tr>
+                            <tr>
+                            <td colspan="4">
+                            <center><button type="button" class="btn btn-info" onclick="calculateAllowance()">Calculate Allowance</button></a></center>
+                            </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    @endif
+                    <!-- FOR TECHNICIAN TO VIEW RECORD REPAIR FORM LIST END -->
                 </div>
+            </div>
+
+            <div class="row">
                 <div class="col">
-                <a class="btn btn-primary" style="float: right; width:50%;" role="button"
-                            href="{{ route('payrollGenerate') }}">Proceed Payroll</a>    
+                    <a class="btn btn-primary" style="float: left; width:50%;" role="button"
+                                href="{{ route('payrollGenerate') }}">Cancel</a>    
+                    </div>
+                    <div class="col">
+                    <a class="btn btn-primary" style="float: right; width:50%;" role="button"
+                                href="{{ route('payrollGenerate') }}">Proceed Payroll</a>    
+                </div>
             </div>
         </div>
-        
     </div>
-    </div>
-
-   
-
-
 </div>
 
 <script src="{{ asset('frontend') }}/js/jquery.dataTables.js"></script>
+<script>
+    function calculateAllowance() {
+        var overtimeHours = parseInt(document.getElementById('overtimeHours').value);
+        var ticketCount = parseInt(document.getElementById('ticket').value);
+        
+        var overtimeRate = {!! json_encode($staffInfo->basicPay / 26) !!};
+        var overtimeAllowance = (overtimeRate / overtimeHours) * 1.5;
+        var ticketAllowance = ticketCount * 1.5;
 
+        var totalAllowance = overtimeAllowance + ticketAllowance;
+
+        document.getElementById('overtimeCalculation').innerText = overtimeAllowance.toFixed(2);
+        document.getElementById('ticketCalculation').innerText = ticketAllowance.toFixed(2);
+        document.getElementById('totalAllowance').innerText = totalAllowance.toFixed(2);
+    }
+</script>
 @endsection

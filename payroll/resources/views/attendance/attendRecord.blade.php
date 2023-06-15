@@ -8,28 +8,7 @@
 <script src="//cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.10.12/js/dataTables.bootstrap.min.js"></script>
 
-<script>
-    // to search the appointment 
-    $(document).ready(function() {
-        $('#dataTable').DataTable({
-            "order": [
-                [0, "asc"]
-            ],
-            "language": {
-                search: '<i class="fa fa-search" aria-hidden="true"></i>',
-                searchPlaceholder: 'Search appointment'
-            }
-        });
 
-        // filter appointment
-        $('.dataTables_filter input[type="search"]').css({
-            'width': '300px',
-            'display': 'inline-block',
-            'font-size': '15px',
-            'font-weight': '400'
-        });
-    });
-</script>
 
 <!-- to display the alert message if the record has been deleted -->
 @if(session()->has('message'))
@@ -43,46 +22,48 @@
         <div class="overflow-auto" style="overflow:auto;">
             <div class="table-responsive">
 
-            <div class="col-lg-2 col-md-2 col-sm-2" style="float: left;">
-                @if ($attendList->contains('date', now()->toDateString()))
-                    <button class="btn btn-primary" style="float: right; width:100%; background:#2952a3;" disabled>Check-in</button>
-                @else
-                    <form id="checkInForm" method="post" action="{{ route('checkIn') }}">
-                        @csrf
-                        <button type="submit" class="btn btn-primary" style="float: right; width:100%; background:#2952a3;" role="button">Check-in</button>
-                  
-                @endif
-            </div>
+                <div class="col-lg-2 col-md-2 col-sm-2" style="float: left;">
+                    @if ($attendList->contains('date', now()->toDateString()))
+                        <button class="btn btn-primary" style="float: right; width:100%; background:#2952a3;" disabled>Check-in</button>
+                    @else
+                        <form id="checkInForm" method="post" action="{{ route('checkIn') }}">
+                            @csrf
+                            <button type="submit" class="btn btn-primary" style="float: right; width:100%; background:#2952a3;" role="button">Check-in</button>
+                    
+                    @endif
+                </div>
+                <br><br>
 
-                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                    <thead>
-                        <tr>
-                            <th>Date</th>
-                            <th>Check-in</th>
-                            <th>Check-out</th>
-                        </tr>
-                    </thead>
+                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Check-in</th>
+                                <th>Check-out</th>
+                            </tr>
+                        </thead>
 
-                    @foreach($attendList as $index => $data)
-                    <tbody>
-                        <tr id="row{{$data->id}}">
-                            <td>{{ $data->date }}</td>
-                            <td>{{ $data->check_in }}</td>
-                            <td>
-                                @if ( $data->check_out == null )
-                                <center><a href="{{ route('checkOut', $data->id) }}" class="btn btn-primary" 
-                                style="width:40%; background:#2952a3;" role="button">Check-out</a></center>
-                                @else 
-                                {{ $data->check_out }}
-                                @endif
-                            </td>
-                        </tr>
-                        @endforeach
-                </tbody>
-                </table>
+                        <tbody>
+                            @foreach($attendList as $index => $data)
+                                <tr id="row{{$data->id}}">
+                                    <td>{{ $data->date }}</td>
+                                    <td>{{ $data->check_in }}</td>
+                                    <td>
+                                        @if ( $data->check_out == null )
+                                        <center><a href="{{ route('checkOut', $data->id) }}" class="btn btn-primary" 
+                                        style="width:40%; background:#2952a3;" role="button">Check-out</a></center>
+                                        @else 
+                                        {{ $data->check_out }}
+                                        @endif
+                                    </td>
+                                </tr>
+                            @endforeach
+                    </tbody>
+                    </table>
 
-                <!-- FOR Staff TO VIEW RECORD ATTENDANCE LIST END -->
-            </div>
+                    <!-- FOR Staff TO VIEW RECORD ATTENDANCE LIST END -->
+                </div>
+            </div>  
         </div>
     </div>
 </div>
