@@ -42,7 +42,7 @@ $(document).ready(function() {
 
 <div class="card">
     <div class="card-body">
-        <div class=" {{  auth()->user()->category== 'Admin' ? 'col-lg-10 col-md-10 col-sm-10' : (request()->routeIs('payrollList') ? 'col-lg-10 col-md-10 col-sm-10' : 'col-lg-12 col-md-12 col-sm-12') }}">
+        <div class=" {{  auth()->user()->category== 'Admin' ? 'col-lg-12 col-md-12 col-sm-12' : (request()->routeIs('payrollList') ? 'col-lg-12 col-md-12 col-sm-12' : 'col-lg-12 col-md-12 col-sm-12') }}">
             <div class="overflow-auto" style="overflow:auto;">
                 <div class="table-responsive">
                     @if( auth()->user()->category== "Admin")
@@ -60,7 +60,7 @@ $(document).ready(function() {
                             <tr id="row{{$data->id}}">
                                     <td>{{$data->name}}</td>
                                     <td>{{$data->email}}</td>
-                                    <td><a class="btn btn-primary" style="float: center; width:50%;" role="button"
+                                    <td><a class="btn btn-primary" style="float: center; width:100%;" role="button"
                             href="{{ route('payrollAllowance',$data->id) }}">
                             <i class="fas fa-plus"></i>&nbsp; Create Payroll</a></td>
                                     <td>Pending</td>

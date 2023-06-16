@@ -35,13 +35,23 @@ class PayrollController extends Controller
 
     public function payrollGenerate()
     {
-        return view('payroll.payrollGenerate');
+        $infoPayslip = DB::table('users')
+        ->join('staff', 'users.id', '=', 'staff.userId')
+        ->select(
+        'users.id',
+        'users.name',
+        'staff.position',
+        'staff.epfNo',
+        'staff.socsoNo',
+        'staff.basicPay',
+        'staff.userId as sUserID',
+        )
+        ->first();
+        return view('payroll.payrollGenerate', compact('infoPayslip'));
     }
 
     public function payrollAllowance(Request $request,$id)
     {
-        
-
         $staffInfo = DB::table('users')
             ->join('staff', 'users.id', '=', 'staff.userId')
             ->where('users.id','=',$id)

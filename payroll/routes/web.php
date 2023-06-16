@@ -29,7 +29,11 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
 Route::get('/dashboard', [App\Http\Controllers\DashboardController::class, 'loadDashboard'])->name('dashboard');
+Route::get('/viewStaffList/{id}', [App\Http\Controllers\DashboardController::class, 'staffView'])->name('staffView');
+Route::get('/viewStaffAttendance/{id}', [App\Http\Controllers\DashboardController::class, 'staffAttendance'])->name('staffAttendance');
+
 Route::get('/staffList', [App\Http\Controllers\regStaffController::class, 'regStaff'])->name('staffrecord');
 Route::get('/registerStaff', [App\Http\Controllers\regStaffController::class, 'newStaff'])->name('newUser');
 Route::post('/insertNewStaff', [App\Http\Controllers\regStaffController::class, 'insertNewStaff'])->name('insertNewStaff');
@@ -47,6 +51,7 @@ Route::get('/payrollReview', [App\Http\Controllers\PayrollController::class, 'pa
 Route::get('/payrollHistory', [App\Http\Controllers\PayrollController::class, 'payrollHistory'])->name('payrollHistory');
 Route::get('/payslip', [App\Http\Controllers\PayrollController::class, 'payslip'])->name('payslip');
 Route::get('/cashFlow', [App\Http\Controllers\PayrollController::class, 'cashFlow'])->name('cashFlow');
+Route::get('/reviewPayslip/{id}', [App\Http\Controllers\PayrollController::class, 'infoPayslip'])->name('infoPayslip');
 
 Route::post('/checkIn', [App\Http\Controllers\AttendanceController::class, 'checkIn'])->name('checkIn');
 Route::get('/checkOut/{id}', [App\Http\Controllers\AttendanceController::class, 'checkOut'])->name('checkOut');

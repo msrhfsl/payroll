@@ -73,12 +73,7 @@
                             <span>Create Payroll</span>
                         </a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link {{ request()->routeIs('cashFlow*') ? 'active' : '' }}" href="{{ route('cashFlow') }}">
-                            <i class="material-icons">work</i>
-                            <span>Payroll Record</span>
-                        </a>
-                    </li>
+                    
                     @endif
 
                     

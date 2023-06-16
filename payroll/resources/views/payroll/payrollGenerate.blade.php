@@ -1,7 +1,7 @@
 @extends('layouts.sideNav')
 
 @section('content')
-<h4>CREATE PAYROLL</h4>
+<h4>REVIEW PAYSLIP</h4>
 
 
 <script src="{{ asset('frontend') }}/js/jquery.dataTables.js"></script>
@@ -53,17 +53,17 @@ $(document).ready(function() {
                         </tr>
                    </thead>
                     <tbody>
-                        <tr>
+                        <tr id="row{{$infoPayslip->id}}">
                             <td>Name :</td>
-                            <td>Afiqah Jamil</td>
+                            <td>{{ $infoPayslip->name}}</td>
                             <td>EPF NO :</td>
-                            <td>000507020116</td> 
+                            <td>{{ $infoPayslip->epfNo }}</td> 
                         </tr>
                         <tr>
                             <td>Position :</td>
-                            <td>Technician</td>
+                            <td>{{ $infoPayslip->position}}</td>
                             <td>SOCSO NO :</td>
-                            <td>000810028765</td> 
+                            <td>{{ $infoPayslip->socsoNo}}</td> 
                         </tr>                       
                     </tbody>
                     <thead>
@@ -75,7 +75,7 @@ $(document).ready(function() {
                     <tbody>
                         <tr>
                             <td>Basic Pay</td>
-                            <td style="text-align: right">900.00</td>
+                            <td style="text-align: right">{{ $infoPayslip->basicPay}}</td>
                             <td>EPF <input type="checkbox" name="terms">~11%</td>
                             <td style="text-align: right">139.00</td>
                         </tr>
