@@ -76,7 +76,7 @@
                                 <td colspan="2">Total ticket managed in a month</td>
                             </tr>
                             <tr>
-                                <td><input type="text" id="overtimeHours" class="form-control" placeholder="hours" style="width: 100%" required></td>
+                                <td><input type="number" id="overtimeHours" class="form-control" placeholder="hours" style="width: 100%" required></td>
                                 <td id="overtimeCalculation"></td>
                                 <td><input type="text" id="ticket" class="form-control" placeholder="ticket" style="width: 100%" required></td>
                                 <td id="ticketCalculation"></td>
@@ -100,22 +100,27 @@
 
             <div class="row">
                 <div class="col">
-                    <a class="btn btn-primary" style="float: left; width:50%;" role="button" href="{{ route('payrollGenerate') }}">Cancel</a>
+                    <a class="btn btn-primary" style="float: left; width:50%;" role="button" href="{{ url()->previous() }}">Cancel</a>
                 </div>
                 <div class="col">
-                    <a class="btn btn-primary" style="float: right; width:50%;" role="button" href="{{ route('payrollGenerate') }}">Proceed Payroll</a>
+                    <a id="payrollGenerateLink" class="btn btn-primary" style="float: right; width:50%;" role="button" href="{{ route('payrollGenerate', ['id' => $staffInfo->id]) }}">Proceed Payroll</a>
                 </div>
             </div>
         </div>
     </div>
 </div>
 
+<?php
+// Assuming you have retrieved $staffInfo['basicPay'] from the database
+$overtimeRate = $staffInfo->basicPay / 26;
+?>
+
 <script>
     function calculateAllowance() {
         var overtimeHours = parseInt(document.getElementById('overtimeHours').value);
         var ticketCount = parseInt(document.getElementById('ticket').value);
 
-        var overtimeRate = {{ $staffInfo->basicPay / 26 }};
+        var overtimeRate = <?php echo $overtimeRate; ?>;
         var hourlyRate = overtimeRate / 8;
         var overtimeAllowance = hourlyRate * overtimeHours * 1.5;
         var ticketAllowance = ticketCount * 0.5;
@@ -125,6 +130,11 @@
         document.getElementById('overtimeCalculation').innerText = overtimeAllowance.toFixed(2);
         document.getElementById('ticketCalculation').innerText = ticketAllowance.toFixed(2);
         document.getElementById('totalAllowance').innerText = totalAllowance.toFixed(2);
+
+        // Update the href attribute of the "Proceed Payroll" button
+        var payrollGenerateLink = document.getElementById('payrollGenerateLink');
+        payrollGenerateLink.href = "{{ route('payrollGenerate', ['id' => $staffInfo->id]) }}" + "?totalAllowance=" + totalAllowance.toFixed(2);
+    
     }
 </script>
 

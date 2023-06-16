@@ -53,17 +53,17 @@ $(document).ready(function() {
                         </tr>
                    </thead>
                     <tbody>
-                        <tr>
+                        <tr id="row{{$staffInfo->id}}">
                             <td>Name :</td>
-                            <td>Afiqah Jamil</td>
+                            <td>{{ $staffInfo->name}}</td>
                             <td>EPF NO :</td>
-                            <td>000507020116</td> 
+                            <td>{{ $staffInfo->epfNo }}</td> 
                         </tr>
                         <tr>
                             <td>Position :</td>
-                            <td>Technician</td>
+                            <td>{{ $staffInfo->position}}</td>
                             <td>SOCSO NO :</td>
-                            <td>000810028765</td> 
+                            <td>{{ $staffInfo->socsoNo}}</td> 
                         </tr>                       
                     </tbody>
                     <thead>

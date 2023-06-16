@@ -46,7 +46,7 @@
                         <div class="col">
                             <div class="col">
                                 <label>PASSWORD</label>
-                                <input type="text" name="password" class="form-control" placeholder="password" required>
+                                <input type="password" name="password" class="form-control" placeholder="password" required>
                             </div>
                         </div>
                         
@@ -66,6 +66,6 @@
 <script type="text/javascript" src='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.0.3/js/bootstrap.min.js'>
 </script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-<script>
+
 
 @endsection

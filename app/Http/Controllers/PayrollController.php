@@ -19,11 +19,11 @@ class PayrollController extends Controller
         $payList = DB::table('users')
             ->join('staff', 'users.id', '=', 'staff.userId')
             ->select(
-            'users.id',
-            'users.name',
-            'users.email',
-            'users.category',
-            'staff.userId as sUserID',
+                'users.id',
+                'users.name',
+                'users.email',
+                'users.category',
+                'staff.userId as sUserID',
             )
             ->where('users.category', '=', 'Staff')
             ->orderBy('id', 'desc')
@@ -33,42 +33,42 @@ class PayrollController extends Controller
         return view('payroll.payrollList', compact('payList'));
     }
 
-    public function payrollGenerate()
+    public function payrollGenerate($id)
     {
-        $infoPayslip = DB::table('users')
-        ->join('staff', 'users.id', '=', 'staff.userId')
-        ->select(
-        'users.id',
-        'users.name',
-        'staff.position',
-        'staff.epfNo',
-        'staff.socsoNo',
-        'staff.basicPay',
-        'staff.userId as sUserID',
-        )
-        ->first();
-        return view('payroll.payrollGenerate', compact('infoPayslip'));
+
+        $staffInfo = DB::table('users')
+            ->join('staff', 'users.id', '=', 'staff.userId')
+            ->select(
+                'users.id',
+                'users.name',
+                'staff.position',
+                'staff.epfNo',
+                'staff.socsoNo',
+                'staff.basicPay',
+                'staff.userId as sUserID',
+            )
+            ->first();
+
+        return view('payroll.payrollGenerate', compact('staffInfo'));
     }
 
-    public function payrollAllowance(Request $request,$id)
+    public function payrollAllowance(Request $request, $id)
     {
         $staffInfo = DB::table('users')
             ->join('staff', 'users.id', '=', 'staff.userId')
-            ->where('users.id','=',$id)
+            ->where('users.id', '=', $id)
             ->select(
-            'users.id',
-            'users.name',
-            'staff.position',
-            'staff.basicPay',
+                'users.id',
+                'users.name',
+                'staff.position',
+                'staff.epfNo',
+                'staff.socsoNo',
+                'staff.basicPay',
+                'staff.userId as sUserID',
             )
             ->first();
+
         return view('payroll.payrollAllowance', compact('staffInfo'));
-    }
-
-
-    public function payrollReview()
-    {
-        return view('payroll.payrollReview');
     }
 
     public function payrollHistory()
@@ -85,5 +85,4 @@ class PayrollController extends Controller
     {
         return view('payroll.cashFlow');
     }
-
 }

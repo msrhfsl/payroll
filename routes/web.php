@@ -45,9 +45,8 @@ Route::post('/updateStaff/{id}', [App\Http\Controllers\regStaffController::class
 Route::delete('/deleteStaff/{id}', [App\Http\Controllers\regStaffController::class, 'deleteStaff'])->name('deleteStaff');
 
 Route::get('/payrollList', [App\Http\Controllers\PayrollController::class, 'payrollList'])->name('payrollList');
-Route::get('/payrollGenerate', [App\Http\Controllers\PayrollController::class, 'payrollGenerate'])->name('payrollGenerate');
+Route::get('/payrollGenerate/{id}', [App\Http\Controllers\PayrollController::class, 'payrollGenerate'])->name('payrollGenerate');
 Route::get('/payrollAllowance/{id}', [App\Http\Controllers\PayrollController::class, 'payrollAllowance'])->name('payrollAllowance');
-Route::get('/payrollReview', [App\Http\Controllers\PayrollController::class, 'payrollReview'])->name('payrollReview');
 Route::get('/payrollHistory', [App\Http\Controllers\PayrollController::class, 'payrollHistory'])->name('payrollHistory');
 Route::get('/payslip', [App\Http\Controllers\PayrollController::class, 'payslip'])->name('payslip');
 Route::get('/cashFlow', [App\Http\Controllers\PayrollController::class, 'cashFlow'])->name('cashFlow');
@@ -60,6 +59,7 @@ Route::get('/displayStaffAttendance/{id}', [App\Http\Controllers\AttendanceContr
 Route::get('/createAttend', [App\Http\Controllers\AttendanceController::class, 'createAttend'])->name('createAttend');
 Route::get('/chartAttend', [App\Http\Controllers\AttendanceController::class, 'chartAttend'])->name('chartAttend');
 
+Route::get('/payrollReview/{id}', [App\Http\Controllers\SalaryController::class, 'payrollReview'])->name('payrollReview');
 
 Route::get('/ListOfStaff', [App\Http\Controllers\AccountController::class, 'listProfile'])->name('listOfStaff');
 Route::put('/UpdateProfile/{id}', [App\Http\Controllers\AccountController::class, 'updateProfile'])->name('updateProfile');
