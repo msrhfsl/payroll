@@ -43,6 +43,16 @@
 
 <div class="card">
     <div class="card-body">
+
+        <!-- Count month from the database -->
+
+        <div class="row">
+            <div class="col-md-6">
+                <label for="attendance_count">Attendance Count:</label>
+                <input type="text" id="attendance_count" name="attendance_count" class="form-control" value="{{ $attendanceCount }}" readonly>
+            </div>
+        </div>
+
         <div class=" {{  auth()->user()->category== 'Admin' ? 'col-lg-12 col-md-12 col-sm-12' : (request()->routeIs('payrollAllowance') ? 'col-lg-12 col-md-12 col-sm-12' : 'col-lg-12 col-md-12 col-sm-12') }}">
             <div class="overflow-auto" style="overflow:auto;">
                 <div class="table-responsive">
@@ -59,9 +69,9 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <td>{{$staffInfo->name}}</td>
-                            <td colspan="2">{{$staffInfo->position}}</td>
-                            <td colspan="2">{{$staffInfo->basicPay}}</td>
+                            <td>{{$staffDisplay->name}}</td>
+                            <td colspan="2">{{$staffDisplay->position}}</td>
+                            <td colspan="2">{{$staffDisplay->basicPay}}</td>
                         </tbody>
 
                         <thead>
@@ -103,7 +113,7 @@
                     <a class="btn btn-primary" style="float: left; width:50%;" role="button" href="{{ url()->previous() }}">Cancel</a>
                 </div>
                 <div class="col">
-                    <a id="payrollGenerateLink" class="btn btn-primary" style="float: right; width:50%;" role="button" href="{{ route('payrollGenerate', ['id' => $staffInfo->id]) }}">Proceed Payroll</a>
+                    <a id="payrollGenerateLink" class="btn btn-primary" style="float: right; width:50%;" role="button" href="{{ route('payrollGenerate', ['id' => $staffDisplay->id]) }}">Proceed Payroll</a>
                 </div>
             </div>
         </div>
@@ -111,8 +121,8 @@
 </div>
 
 <?php
-// Assuming you have retrieved $staffInfo['basicPay'] from the database
-$overtimeRate = $staffInfo->basicPay / 26;
+// Assuming you have retrieved $staffDisplay['basicPay'] from the database
+$overtimeRate = $staffDisplay->basicPay / $attendanceCount;
 ?>
 
 <script>
@@ -124,7 +134,6 @@ $overtimeRate = $staffInfo->basicPay / 26;
         var hourlyRate = overtimeRate / 8;
         var overtimeAllowance = hourlyRate * overtimeHours * 1.5;
         var ticketAllowance = ticketCount * 0.5;
-
         var totalAllowance = overtimeAllowance + ticketAllowance;
 
         document.getElementById('overtimeCalculation').innerText = overtimeAllowance.toFixed(2);
@@ -133,8 +142,7 @@ $overtimeRate = $staffInfo->basicPay / 26;
 
         // Update the href attribute of the "Proceed Payroll" button
         var payrollGenerateLink = document.getElementById('payrollGenerateLink');
-        payrollGenerateLink.href = "{{ route('payrollGenerate', ['id' => $staffInfo->id]) }}" + "?totalAllowance=" + totalAllowance.toFixed(2);
-    
+        payrollGenerateLink.href = "{{ route('payrollGenerate', ['id' => $staffDisplay->id]) }}" + "?totalAllowance=" + totalAllowance.toFixed(2);
     }
 </script>
 

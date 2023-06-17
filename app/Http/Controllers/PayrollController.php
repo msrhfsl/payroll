@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Staff;
+use App\Models\Attendance;
 use App\Models\User;
 
 
@@ -33,9 +34,33 @@ class PayrollController extends Controller
         return view('payroll.payrollList', compact('payList'));
     }
 
+    public function payrollAllowance(Request $request, $id)
+    {
+        $selectedMonth = $request->input('selected_month');
+
+        // Retrieve the attendance count for the selected month and employee
+        $attendanceCount = Attendance::where('userID', $id)
+            ->whereDate('date', 'like', $selectedMonth . '%')
+            ->count();
+
+
+        // Retrieve the staff information and attendance count
+        $staffDisplay = DB::table('users')
+            ->join('staff', 'users.id', '=', 'staff.userId')
+            ->join('attendance', 'attendance.userID', '=', 'users.id')
+            ->select(
+                'users.*',
+                'staff.*',
+                'attendance.*'
+            )
+            ->where('users.id', '=', $id)
+            ->first();
+
+        return view('payroll.payrollAllowance', compact('attendanceCount', 'staffDisplay'));
+    }
+
     public function payrollGenerate($id)
     {
-
         $staffInfo = DB::table('users')
             ->join('staff', 'users.id', '=', 'staff.userId')
             ->select(
@@ -52,25 +77,6 @@ class PayrollController extends Controller
         return view('payroll.payrollGenerate', compact('staffInfo'));
     }
 
-    public function payrollAllowance(Request $request, $id)
-    {
-        $staffInfo = DB::table('users')
-            ->join('staff', 'users.id', '=', 'staff.userId')
-            ->where('users.id', '=', $id)
-            ->select(
-                'users.id',
-                'users.name',
-                'staff.position',
-                'staff.epfNo',
-                'staff.socsoNo',
-                'staff.basicPay',
-                'staff.userId as sUserID',
-            )
-            ->first();
-
-        return view('payroll.payrollAllowance', compact('staffInfo'));
-    }
-
     public function payrollHistory()
     {
         return view('payroll.payrollHistory');
@@ -81,8 +87,15 @@ class PayrollController extends Controller
         return view('payroll.payslip');
     }
 
-    public function cashFlow()
+    public function countMonth(Request $request, $id)
     {
-        return view('payroll.cashFlow');
+    }
+
+    public function selectMonth(Request $request, $id)
+    {
+
+
+        // Pass the staff information and attendance count to the view
+        return view('payroll.selectMonth');
     }
 }

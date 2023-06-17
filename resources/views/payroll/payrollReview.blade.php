@@ -11,26 +11,26 @@
 <script src="https://cdn.datatables.net/1.10.12/js/dataTables.bootstrap.min.js"></script>
 
 <script>
-// to search the REPAIR FORM 
-$(document).ready(function() {
-    $('#dataTable').DataTable({
-        "order": [
-            [0, "asc"]
-        ],
-        "language": {
-            search: '<i class="fa fa-search" aria-hidden="true"></i>',
-            searchPlaceholder: 'Search By Staff Name'
-        }
-    });
+    // to search the REPAIR FORM 
+    $(document).ready(function() {
+        $('#dataTable').DataTable({
+            "order": [
+                [0, "asc"]
+            ],
+            "language": {
+                search: '<i class="fa fa-search" aria-hidden="true"></i>',
+                searchPlaceholder: 'Search By Staff Name'
+            }
+        });
 
-    // filter PAYROLL FORM
-    $('.dataTables_filter input[type="search"]').css({
-        'width': '300px',
-        'display': 'inline-block',
-        'font-size': '15px',
-        'font-weight': '400'
+        // filter PAYROLL FORM
+        $('.dataTables_filter input[type="search"]').css({
+            'width': '300px',
+            'display': 'inline-block',
+            'font-size': '15px',
+            'font-weight': '400'
+        });
     });
-});
 </script>
 
 <!-- to display the alert message if the record has been deleted -->
@@ -51,27 +51,27 @@ $(document).ready(function() {
                             <th colspan="2">IT MINES EXPERT RESOURCES</th>
                             <th colspan="2" style="text-align: right">PAY SLIP JANUARY 2023</th>
                         </tr>
-                   </thead>
+                    </thead>
                     <tbody>
                         <tr id="row{{$staffInfo->id}}">
                             <td>Name :</td>
                             <td>{{ $staffInfo->name}}</td>
                             <td>EPF NO :</td>
-                            <td>{{ $staffInfo->epfNo }}</td> 
+                            <td>{{ $staffInfo->epfNo }}</td>
                         </tr>
                         <tr>
                             <td>Position :</td>
                             <td>{{ $staffInfo->position}}</td>
                             <td>SOCSO NO :</td>
-                            <td>{{ $staffInfo->socsoNo}}</td> 
-                        </tr>                       
+                            <td>{{ $staffInfo->socsoNo}}</td>
+                        </tr>
                     </tbody>
                     <thead>
                         <tr>
                             <th colspan="2">Earnings</th>
                             <th colspan="2">Deductions</th>
                         </tr>
-                   </thead>
+                    </thead>
                     <tbody>
                         <tr>
                             <td>Basic Pay</td>
@@ -92,10 +92,10 @@ $(document).ready(function() {
                             <td style="text-align: right">181.59</td>
                         </tr>
                         <tr>
-                        <td></td>
-                        <td></td>    
-                        <td>Net Pay</td>
-                        <td style="text-align: right">846.36</td>
+                            <td></td>
+                            <td></td>
+                            <td>Net Pay</td>
+                            <td style="text-align: right">846.36</td>
                         </tr>
                     </tbody>
                 </table>
@@ -106,12 +106,10 @@ $(document).ready(function() {
         <br>
         <div class="row">
             <div class="col">
-                <a class="btn btn-primary" style="float: left; width:50%;" role="button"
-                            href="{{ route('payrollGenerate') }}">Print</a>    
+                <a class="btn btn-primary" style="float: left; width:50%;" role="button" href="{{ route('payrollGenerate') }}">Print</a>
             </div>
             <div class="col">
-                <a class="btn btn-primary" style="float: right; width:50%;" role="button"
-                            href="{{ route('payrollGenerate') }}">Submit</a>    
+                <a class="btn btn-primary" style="float: right; width:50%;" role="button" href="{{ route('payrollGenerate') }}">Submit</a>
             </div>
         </div>
     </div>

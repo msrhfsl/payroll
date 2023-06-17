@@ -55,15 +55,15 @@
                     <tbody>
                         <tr id="row{{$staffInfo->id}}">
                             <td>Name :</td>
-                            <td>{{ $staffInfo->name}}</td>
+                            <td><input type="text" value="{{ $staffInfo->name }}" readonly></td>
                             <td>EPF NO :</td>
-                            <td>{{ $staffInfo->epfNo }}</td>
+                            <td><input type="text" value="{{ $staffInfo->epfNo }}" readonly></td>
                         </tr>
                         <tr>
                             <td>Position :</td>
-                            <td>{{ $staffInfo->position}}</td>
+                            <td><input type="text" value="{{ $staffInfo->position }}" readonly></td>
                             <td>SOCSO NO :</td>
-                            <td>{{ $staffInfo->socsoNo}}</td>
+                            <td><input type="text" value="{{ $staffInfo->socsoNo }}" readonly></td>
                         </tr>
                     </tbody>
                     <thead>
@@ -75,25 +75,25 @@
                     <tbody>
                         <tr>
                             <td>Basic Pay</td>
-                            <td style="text-align: right">{{ $staffInfo->basicPay }}</td>
+                            <td style="text-align: right"><input type="text" value="{{ $staffInfo->basicPay }}" readonly></td>
                             <td>EPF <input type="checkbox" id="epfCheckbox">~9%</td>
-                            <td style="text-align: right" id="epfDeduction"></td>
+                            <td style="text-align: right" id="epfDeduction"><input type="text" readonly></td>
                         </tr>
                         <tr>
                             <td>Allowance</td>
-                            <td id="totalAllowance" style="text-align: right">{{ request('totalAllowance') }}</td>
+                            <td id="totalAllowance" style="text-align: right"><input type="text" value="{{ request('totalAllowance') }}" readonly></td>
                             <td>SOCSO <input type="checkbox" id="socsoCheckbox">~0.5%</td>
-                            <td style="text-align: right" id="socsoDeduction"></td>
+                            <td style="text-align: right" id="socsoDeduction"><input type="text" readonly></td>
                         </tr>
                         <tr>
                             <td>Gross Pay</td>
-                            <td style="text-align: right" id="grossPay"></td>
+                            <td style="text-align: right" id="grossPay"><input type="text" readonly></td>
                             <td>Total Deductions</td>
-                            <td style="text-align: right" id="totalDeductions"></td>
+                            <td style="text-align: right" id="totalDeductions"><input type="text" readonly></td>
                         </tr>
                         <tr>
                             <td colspan="2">Net Pay</td>
-                            <td colspan="2" style="text-align: right" id="netPay"></td>
+                            <td colspan="2" style="text-align: right" id="netPay"><input type="text" readonly></td>
                             <br>
                         </tr>
                         <tr>
@@ -131,14 +131,12 @@
         var grossPay = basicPay + totalAllowance;
         var netPay = grossPay - totalDeductions;
 
-        document.getElementById('epfDeduction').innerText = epfDeduction.toFixed(2);
-        document.getElementById('socsoDeduction').innerText = socsoDeduction.toFixed(2);
-        document.getElementById('totalDeductions').innerText = totalDeductions.toFixed(2);
-        document.getElementById('grossPay').innerText = grossPay.toFixed(2);
-        document.getElementById('netPay').innerText = netPay.toFixed(2);
+        document.getElementById('epfDeduction').firstElementChild.value = epfDeduction.toFixed(2);
+        document.getElementById('socsoDeduction').firstElementChild.value = socsoDeduction.toFixed(2);
+        document.getElementById('totalDeductions').firstElementChild.value = totalDeductions.toFixed(2);
+        document.getElementById('grossPay').firstElementChild.value = grossPay.toFixed(2);
+        document.getElementById('netPay').firstElementChild.value = netPay.toFixed(2);
     }
 </script>
-
 <script src="{{ asset('frontend') }}/js/jquery.dataTables.js"></script>
-
 @endsection
