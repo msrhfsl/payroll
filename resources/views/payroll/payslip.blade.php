@@ -85,13 +85,56 @@
             <br>
             <br>
             <div class="row">
-                <div class="col">
-                    <a class="btn btn-primary" style="float: center; width:50%;" role="button" href="#">Print</a>
+                <div style="float: left;">
+                    <a href="{{ url()->previous() }}" class="btn btn-secondary">Back</a>
                 </div>
+                <div style="float: right;">
+                    <button type="button" id="printBtn" class="btn btn-dark">Print</button>
+                </div>
+
             </div>
+
         </div>
     </div>
 </div>
+
+<script>
+    document.getElementById("printBtn").addEventListener("click", function() {
+        var cardContent = document.querySelector(".card-body").outerHTML;
+
+        // Open a new window
+        var win = window.open("", "_blank");
+
+        // Write the card content to the new window
+        win.document.write("<html><head><title>Invoice Payslip</title></head><body>" + cardContent + "</body></html>");
+
+        // Add CSS styles for A4 size
+        win.document.write('<style>@page { size: A4; }</style>');
+        win.document.write('<style>body { margin: 0; }</style>');
+
+        // Add CSS styles
+        var linkTags = document.getElementsByTagName("link");
+        for (var i = 0; i < linkTags.length; i++) {
+            var linkTag = linkTags[i].cloneNode(true);
+            win.document.head.appendChild(linkTag);
+        }
+
+        // Add inline styles
+        var styleTags = document.getElementsByTagName("style");
+        for (var j = 0; j < styleTags.length; j++) {
+            var styleTag = styleTags[j].cloneNode(true);
+            win.document.head.appendChild(styleTag);
+        }
+
+        // Hide buttons in the new window
+        win.document.getElementById("cancel").style.display = "none";
+        win.document.getElementById("printBtn").style.display = "none";
+
+        // Print the window content
+        win.print();
+    });
+</script>
+
 
 <script src="{{ asset('frontend') }}/js/jquery.dataTables.js"></script>
 

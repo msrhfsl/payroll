@@ -93,7 +93,8 @@
                 </div>
                 
             </div>
-            
+            <a href="{{ url()->previous() }}" class="btn btn-secondary">Back</a>
+
             <button type="submit" class="btn btn-primary" id="updateStaff"><span class="nav-link-text">Update</span></button>
          
         </form>
