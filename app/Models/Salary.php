@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Salary extends Model
 {
-    protected $table = 'staff';
+    protected $table = 'salary';
 
     protected $fillable = [
         'id',
@@ -18,5 +18,6 @@ class Salary extends Model
         'netPay',
         'epfRate',
         'socsoRate',
+        'status',
     ];
 }

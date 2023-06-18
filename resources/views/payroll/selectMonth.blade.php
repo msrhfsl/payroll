@@ -18,23 +18,33 @@
 
 <div class="card">
     <div class="card-body">
-        <form method="POST" action="{{ route('payrollAllowance', ['id' => request()->route('id')]) }}">
+        <form method="POST" action="{{ route('payrollAllowance', ['id' => request()->route('id')]),  }}">
             @csrf
-            <div class="{{ auth()->user()->category == 'Admin' ? 'col-lg-12 col-md-12 col-sm-12' : (request()->routeIs('payrollList') ? 'col-lg-12 col-md-12 col-sm-12' : 'col-lg-12 col-md-12 col-sm-12') }}">
+            <div class="{{ auth()->user()->category == 'Admin' ? 'col-lg-12 col-md-12 col-sm-12' : (request()->routeIs('selectMonth') ? 'col-lg-12 col-md-12 col-sm-12' : 'col-lg-12 col-md-12 col-sm-12') }}">
                 <!-- Select month -->
                 <div class="row">
-                    <div class="col-md-12">
+                    <div class="col-md-10">
                         <label for="selected_month">Select Month:</label>
                         <input type="month" id="selected_month" name="selected_month" class="form-control" required>
                     </div>
-                    <div class="col">
-                        <button type="submit" class="btn btn-primary" style="float: right; width:50%;">Submit</button>
+                    <div class="col-md-2">
+                        <label></label>
+                        <button type="submit" class="btn btn-primary" style="float: right; width:100%;">Submit</button>
                     </div>
                 </div>
             </div>
         </form>
     </div>
 </div>
+
+<script>
+    function calculateAllowance() {
+        
+        var selectedMonth = document.getElementById('selected_month').value;
+        // Get the selected month value
+    }
+</script>
+
 
 <script src="{{ asset('frontend') }}/js/jquery.dataTables.js"></script>
 

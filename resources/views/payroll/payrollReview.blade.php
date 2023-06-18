@@ -49,21 +49,21 @@
                     <thead>
                         <tr>
                             <th colspan="2">IT MINES EXPERT RESOURCES</th>
-                            <th colspan="2" style="text-align: right">PAY SLIP JANUARY 2023</th>
+                            <th colspan="2" style="text-align: right">PAY SLIP</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr id="row{{$staffInfo->id}}">
+                        <tr id="row{{$display->id}}">
                             <td>Name :</td>
-                            <td>{{ $staffInfo->name}}</td>
+                            <td>{{ $display->name}}</td>
                             <td>EPF NO :</td>
-                            <td>{{ $staffInfo->epfNo }}</td>
+                            <td>{{ $display->epfNo }}</td>
                         </tr>
                         <tr>
                             <td>Position :</td>
-                            <td>{{ $staffInfo->position}}</td>
+                            <td>{{ $display->position}}</td>
                             <td>SOCSO NO :</td>
-                            <td>{{ $staffInfo->socsoNo}}</td>
+                            <td>{{ $display->socsoNo}}</td>
                         </tr>
                     </tbody>
                     <thead>
@@ -75,27 +75,27 @@
                     <tbody>
                         <tr>
                             <td>Basic Pay</td>
-                            <td style="text-align: right">900.00</td>
+                            <td>{{ $display->basicPay}}</td>
                             <td>EPF</td>
-                            <td style="text-align: right">139.00</td>
+                            <td>{{ $display->epfRate}}</td>
                         </tr>
                         <tr>
                             <td>Allowance</td>
-                            <td style="text-align: right">128.00</td>
+                            <td>{{ $display->allowancePay}}</td>
                             <td>SOCSO</td>
-                            <td style="text-align: right">15.59</td>
+                            <td>{{ $display->socsoRate}}</td>
                         </tr>
                         <tr>
                             <td>Gross Pay</td>
-                            <td style="text-align: right">1028.00</td>
+                            <td>{{ $display->grossPay}}</td>
                             <td>Total Deductions</td>
-                            <td style="text-align: right">181.59</td>
+                            <td>{{ $display->deductions}}</td>
                         </tr>
                         <tr>
                             <td></td>
                             <td></td>
                             <td>Net Pay</td>
-                            <td style="text-align: right">846.36</td>
+                            <td>{{ $display->netPay}}</td>
                         </tr>
                     </tbody>
                 </table>
@@ -106,10 +106,7 @@
         <br>
         <div class="row">
             <div class="col">
-                <a class="btn btn-primary" style="float: left; width:50%;" role="button" href="{{ route('payrollGenerate') }}">Print</a>
-            </div>
-            <div class="col">
-                <a class="btn btn-primary" style="float: right; width:50%;" role="button" href="{{ route('payrollGenerate') }}">Submit</a>
+                <a class="btn btn-primary" style="float: center; width:50%;" role="button" href="#">Print</a>
             </div>
         </div>
     </div>

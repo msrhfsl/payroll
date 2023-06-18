@@ -64,7 +64,7 @@ class DashboardController extends Controller
         }
     }
 
-    public function staffAttendance()
+    public function staffAttendance($id)
     {
 
         $staffAttendance = DB::table('users')
@@ -76,6 +76,7 @@ class DashboardController extends Controller
                 'attendance.check_in',
                 'attendance.check_out',
             )
+            ->where('attendance.userID', '=', $id)
             ->get();
         return view('dashboard.viewAttendance', compact('staffAttendance'));
     }

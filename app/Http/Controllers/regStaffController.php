@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
@@ -19,13 +20,14 @@ class regStaffController extends Controller
         $staffList = DB::table('users')
             ->join('staff', 'users.id', '=', 'staff.userId')
             ->select(
-            'users.id',
-            'users.name',
-            'users.email',
-            'users.category',
-            'staff.userId as sUserID',
+                'users.id',
+                'users.name',
+                'users.email',
+                'users.category',
+                'staff.userId as sUserID',
             )
-            ->where('users.category', '=', 'Staff')
+            ->where('users.id', '=', $id)
+            ->orWhere('users.category', '=', 'Staff')
             ->orderBy('id', 'desc')
             ->get();
 
@@ -42,7 +44,7 @@ class regStaffController extends Controller
             ->leftJoin('staff', 'users.id', '=', 'staff.userId')
             ->select('users.*')
             ->whereNull('staff.userId')
-            ->where ('category', 'Staff')
+            ->where('category', 'Staff')
             ->get();
 
         return view('record.incompleteStaff', compact('staffList'));
@@ -53,12 +55,11 @@ class regStaffController extends Controller
         $id = Auth::user()->id;
 
         return view('record.newUser');
-
     }
 
     public function insertNewStaff(Request $request)
     {
-        
+
         $name = $request->input('name');
         $email = $request->input('email');
         $password = $request->input('password');
@@ -68,14 +69,14 @@ class regStaffController extends Controller
             'email' => $email,
             'password' => Hash::make($password),
             'category' => "Staff",
-        
+
         );
 
         // insert query
         DB::table('users')->insert($data);
         return redirect()->route('staffrecord');
     }
-    
+
 
 
     public function addStaff($id)
@@ -83,10 +84,10 @@ class regStaffController extends Controller
         $staffID = DB::table('users')
             ->where('id', $id)
             ->first();
-        
+
         return view('record.staffdetails', compact('staffID'));
     }
-    
+
 
     public function insertStaff(Request $request, $id)
     {
@@ -111,7 +112,7 @@ class regStaffController extends Controller
             'epfNo' => $epfNo,
             'socsoNo' => $socsoNo,
             'basicPay' => $basicPay,
-        
+
         );
 
         // insert query
@@ -125,22 +126,22 @@ class regStaffController extends Controller
         $staffDisplay = DB::table('users')
             ->join('staff', 'users.id', '=', 'staff.userId')
             ->select(
-            'users.id',
-            'users.name',
-            'users.email',
-            'staff.phoneNum',
-            'staff.homeAdd',
-            'staff.gender',
-            'staff.position',
-            'staff.bank',
-            'staff.accNum',
-            'staff.epfNo',
-            'staff.socsoNo',
-            'staff.basicPay',
-            'staff.userId as sUserID',
+                'users.id',
+                'users.name',
+                'users.email',
+                'staff.phoneNum',
+                'staff.homeAdd',
+                'staff.gender',
+                'staff.position',
+                'staff.bank',
+                'staff.accNum',
+                'staff.epfNo',
+                'staff.socsoNo',
+                'staff.basicPay',
+                'staff.userId as sUserID',
             )
+            ->where('users.id', '=', $id)
             ->first();
-
         return view('record.displayStaff', compact('staffDisplay'));
     }
 
@@ -163,11 +164,9 @@ class regStaffController extends Controller
         $user->email = $request->email;
         $user->save();
 
-        return back()->with('success','Your profile is successfully updated!');
-        
-            
+        return back()->with('success', 'Your profile is successfully updated!');
     }
-    
+
 
     //to delete selected record
     public function deleteStaff(Request $request, $id)

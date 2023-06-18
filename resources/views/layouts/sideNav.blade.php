@@ -20,13 +20,13 @@
                 </nav>
             </div>
             
-            <div class="nav-wrapper">
+            <div class="nav-wrapper" style="background-color:#027fbf;">
                 <ul class="nav flex-column">
                 @if( auth()->user()->category== "Admin")
                     <li class="nav-item">
                         <a class="nav-link {{ request()->routeIs('dashboard*') ? 'active' : '' }}" href="{{ route('dashboard') }}">
                             <i class="material-icons">info</i>
-                            <span>Dashboard</span>
+                            <span style="color:#cbcacf;">Dashboard</span>
                         </a>
                     </li>
 
@@ -35,11 +35,9 @@
                     <li class="nav-item">
                     <a class="nav-link {{ request()->routeIs('chartAttend*') ? 'active' : '' }}" href="{{ route('chartAttend') }}">
                             <i class="material-icons">info</i>
-                            <span>Dashboard</span>
+                            <span style="color:#cbcacf;">Dashboard</span>
                         </a>
                     </li>
-
-                    
                     @endif
 
 
@@ -47,14 +45,14 @@
                     @if( auth()->user()->category== "Staff")
                     <li class="nav-item">
                         <a class="nav-link {{ request()->routeIs('payrollHistory*') ? 'active' : '' }}" href="{{ route('payrollHistory') }}">
-                            <i class="material-icons">work</i>
-                            <span>Payslip Record</span>
+                            <i class="material-icons">payment</i>
+                            <span style="color:#cbcacf;">Payslip Record</span>
                         </a>
                     </li>
                     <li class="nav-item">   
                         <a class="nav-link {{ request()->routeIs('createAttend*') ? 'active' : '' }}" href="{{ route('createAttend') }}">
-                            <i class="material-icons">work</i>
-                            <span>Attendance</span>
+                            <i class="material-icons">schedule</i>
+                            <span style="color:#cbcacf;">Attendance</span>
                         </a>
                     </li>
                     
@@ -63,14 +61,14 @@
                     @if( auth()->user()->category== "Admin")
                     <li class="nav-item">
                         <a class="nav-link {{ request()->routeIs('staffrecord*') ? 'active' : '' }}" href="{{ route('staffrecord') }}">
-                            <i class="material-icons">work</i>
-                            <span>Register Staff</span>
+                            <i class="material-icons">group_add</i>
+                            <span style="color:#cbcacf;">Register Staff</span>
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link {{ request()->routeIs('payrollList*') ? 'active' : '' }}" href="{{ route('payrollList') }}">
-                            <i class="material-icons">work</i>
-                            <span>Create Payroll</span>
+                            <i class="material-icons">monetization_on</i>
+                            <span style="color:#cbcacf;">Create Payroll</span>
                         </a>
                     </li>
                     

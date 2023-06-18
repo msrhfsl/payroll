@@ -11,11 +11,11 @@ use Illuminate\Http\Request;
 
 class SalaryController extends Controller
 {
-    public function payrollReview($id)
+    public function payrollReview(Request $request, $id)
     {
-        $staffInfo = DB::table('users')
+        $display = DB::table('users')
             ->join('staff', 'users.id', '=', 'staff.userId')
-            ->where('users.id', '=', $id)
+            ->join('salary', 'salary.userId', '=', 'users.id')
             ->select(
                 'users.id',
                 'users.name',
@@ -23,10 +23,17 @@ class SalaryController extends Controller
                 'staff.epfNo',
                 'staff.socsoNo',
                 'staff.basicPay',
-                'staff.userId as sUserID',
+                'salary.allowancePay',
+                'salary.deductions',
+                'salary.grossPay',
+                'salary.netPay',
+                'salary.epfRate',
+                'salary.socsoRate',
+
             )
+            ->where('users.id', '=', $id)
             ->first();
 
-        return view('payroll.payrollReview', compact('staffInfo'));
+        return view('payroll.payrollReview', compact('display'));
     }
 }

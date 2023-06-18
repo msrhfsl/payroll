@@ -20,6 +20,7 @@ return new class extends Migration
             $table->double('netPay');
             $table->double('epfRate');
             $table->double('socsoRate');
+            $table->string('status')->nullable();
             $table->timestamps();
         });
     }

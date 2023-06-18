@@ -89,7 +89,8 @@ $(document).ready(function() {
                             <td><button type="button" class="btn btn-danger" onclick="deleteItem(this)" data-id="{{ $data->id }}" data-name="{{ $data->name }}">Delete</button></a>
                             <a type="button" class="btn btn-info" href="{{ route('displayStaff', $data->id)}}">Info</a>
                             </td>
-                        </tr> @endforeach
+                        </tr> 
+                        @endforeach
                     </tbody>
                 </table>
                 @endif

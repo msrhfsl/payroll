@@ -49,8 +49,10 @@ Route::get('/selectMonth/{id}', [App\Http\Controllers\PayrollController::class, 
 Route::post('/payrollAllowance/{id}', [App\Http\Controllers\PayrollController::class, 'payrollAllowance'])->name('payrollAllowance');
 Route::get('/payrollGenerate/{id}', [App\Http\Controllers\PayrollController::class, 'payrollGenerate'])->name('payrollGenerate');
 Route::get('/payrollHistory', [App\Http\Controllers\PayrollController::class, 'payrollHistory'])->name('payrollHistory');
-Route::get('/payslip', [App\Http\Controllers\PayrollController::class, 'payslip'])->name('payslip');
 Route::get('/countAttendance/{id}', [App\Http\Controllers\PayrollController::class, 'countMonth'])->name('countMonth');
+Route::post('/insertPayroll/{id}', [App\Http\Controllers\PayrollController::class, 'insertPayroll'])->name('insertPayroll');
+Route::get('/updatePayroll', [App\Http\Controllers\PayrollController::class, 'updatePayroll'])->name('updatePayroll');
+Route::get('/payslip/{id}', [App\Http\Controllers\PayrollController::class, 'payslip'])->name('payslip');
 
 Route::post('/checkIn', [App\Http\Controllers\AttendanceController::class, 'checkIn'])->name('checkIn');
 Route::get('/checkOut/{id}', [App\Http\Controllers\AttendanceController::class, 'checkOut'])->name('checkOut');

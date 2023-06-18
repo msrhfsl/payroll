@@ -9,29 +9,6 @@
 <script src="//cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.10.12/js/dataTables.bootstrap.min.js"></script>
 
-<script>
-    // to search the REPAIR FORM 
-    $(document).ready(function() {
-        $('#dataTable').DataTable({
-            "order": [
-                [0, "asc"]
-            ],
-            "language": {
-                search: '<i class="fa fa-search" aria-hidden="true"></i>',
-                searchPlaceholder: 'Search By Staff Name'
-            }
-        });
-
-        // filter PAYROLL FORM
-        $('.dataTables_filter input[type="search"]').css({
-            'width': '300px',
-            'display': 'inline-block',
-            'font-size': '15px',
-            'font-weight': '400'
-        });
-    });
-</script>
-
 
 
 <!-- to display the alert message if the record has been deleted -->
@@ -48,6 +25,9 @@
 
         <div class="row">
             <div class="col-md-6">
+                <label for="selected_month">Select Month:</label>
+                <input type="month" id="selected_month" name="selected_month" class="form-control" required>
+
                 <label for="attendance_count">Attendance Count:</label>
                 <input type="text" id="attendance_count" name="attendance_count" class="form-control" value="{{ $attendanceCount }}" readonly>
             </div>
@@ -113,7 +93,7 @@
                     <a class="btn btn-primary" style="float: left; width:50%;" role="button" href="{{ url()->previous() }}">Cancel</a>
                 </div>
                 <div class="col">
-                    <a id="payrollGenerateLink" class="btn btn-primary" style="float: right; width:50%;" role="button" href="{{ route('payrollGenerate', ['id' => $staffDisplay->id]) }}">Proceed Payroll</a>
+                    <a id="payrollGenerateLink" class="btn btn-primary" style="float: right; width:50%;" role="button">Proceed Payroll</a>
                 </div>
             </div>
         </div>
@@ -140,12 +120,15 @@ $overtimeRate = $staffDisplay->basicPay / $attendanceCount;
         document.getElementById('ticketCalculation').innerText = ticketAllowance.toFixed(2);
         document.getElementById('totalAllowance').innerText = totalAllowance.toFixed(2);
 
+        // Get the selected month value
+        var selectedMonth = document.getElementById('selected_month').value;
+
         // Update the href attribute of the "Proceed Payroll" button
         var payrollGenerateLink = document.getElementById('payrollGenerateLink');
-        payrollGenerateLink.href = "{{ route('payrollGenerate', ['id' => $staffDisplay->id]) }}" + "?totalAllowance=" + totalAllowance.toFixed(2);
+        payrollGenerateLink.href = "{{ route('payrollGenerate', $staffDisplay->currID) }}" + "?totalAllowance=" + totalAllowance.toFixed(2) + "&selectedMonth=" + selectedMonth;
+
     }
 </script>
-
-<script src="{{ asset('frontend') }}/js/jquery.dataTables.js"></script>
+                        <script src="{{ asset('frontend') }}/js/jquery.dataTables.js"></script>
 
 @endsection

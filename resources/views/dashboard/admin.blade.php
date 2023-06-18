@@ -261,7 +261,7 @@
                                         <tr id="row{{$data->id}}">
                                             <td>{{ $data->name}}</td>
                                             <td>{{ $data->position}}</td>
-                                            <td><a class="btn btn-primary" style="float: center; width:50%;" role="button" href="{{ route('staffAttendance',$data->id) }}">
+                                            <td><a class="btn btn-primary" style="float: center; width:100%;" role="button" href="{{ route('staffAttendance',$data->id) }}">
                                             &nbsp; View Attendance</a></td>
                                         </tr>
                                         @endforeach
